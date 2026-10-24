@@ -66,7 +66,7 @@ export default function PetDetails() {
           <div className={styles.ownerProfile}>
             <div className={styles.ownerImage}>🐾</div>
             <div className={styles.ownerInfo}>
-              <h3>Maria Silva</h3>
+              <h3>Camila Moreira</h3>
               <p>Adotante responsável</p>
             </div>
 
