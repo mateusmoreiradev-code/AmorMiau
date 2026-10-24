@@ -1,0 +1,257 @@
+.appContainer {
+  min-height: 100vh;
+  background-image: url('/fundo.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.mobileMockup {
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: none;
+  box-shadow: none;
+}
+
+.backgroundDecor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42%;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(37, 88, 214, 0.08), rgba(37, 88, 214, 0));
+}
+
+.pawShape {
+  position: absolute;
+  background-color: rgba(37, 88, 214, 0.11);
+  opacity: 0.9;
+}
+
+.shape1 { top: 2.5rem; left: -1.5rem; width: 6rem; height: 8rem; border-radius: 40px; transform: rotate(-12deg); }
+.shape2 { top: 1rem; left: 4rem; width: 3rem; height: 3rem; border-radius: 50%; }
+.shape3 { top: 3.5rem; left: 8rem; width: 3.5rem; height: 3.5rem; border-radius: 50%; }
+.shape4 { top: 9rem; right: -2rem; width: 8rem; height: 6rem; border-radius: 40px; transform: rotate(45deg); }
+.shape5 { top: 5rem; right: 2rem; width: 3.5rem; height: 3.5rem; border-radius: 50%; }
+.shape6 { top: 7rem; right: 6rem; width: 3rem; height: 3rem; border-radius: 50%; }
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 30;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: none;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #1f2937;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.catImageContainer {
+  height: 42%;
+  width: calc(100% - 2rem);
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  z-index: 10;
+}
+
+.catImage {
+  width: 100%;
+  height: 100%;
+  max-height: 430px;
+  object-fit: cover;
+  border-radius: 28px;
+  display: block;
+}
+
+.infoCard {
+  background-color: rgba(255, 255, 255, 0.94);
+  flex: 1;
+  border-radius: 30px 30px 0 0;
+  padding: 1.5rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 20;
+  margin-top: 0;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.04);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardHeader h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.iconHeart {
+  color: #ff7aa2;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.iconLocation {
+  margin-right: 0.25rem;
+}
+
+.location span {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.attributes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 0.5rem;
+}
+
+.attrBox {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.attrBox strong {
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+.attrBox span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.attrSex { background: linear-gradient(135deg, #2a5fd6, #1d4bb7); }
+.attrAge { background: linear-gradient(135deg, #5ca3ff, #2f7ae8); }
+.attrWeight { background: linear-gradient(135deg, #7e8af9, #5b62d8); }
+
+.ownerProfile {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.ownerImage {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fef2f2;
+  border: 2px solid #f3f4f6;
+  font-size: 1.5rem;
+}
+
+.ownerInfo {
+  margin-left: 0.75rem;
+  flex: 1;
+}
+
+.ownerInfo h3 {
+  font-weight: 700;
+  color: #111827;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.ownerInfo p {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+  margin: 0;
+}
+
+.ownerActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionBtn {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.actionBtn:hover { background-color: #f9fafb; }
+
+.description {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 1.5rem;
+  line-height: 1.625;
+}
+
+.seeMore {
+  color: #facc15;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.seeMore:hover { text-decoration: underline; }
+
+.btnContinue {
+  margin-top: auto;
+  width: 100%;
+  background: linear-gradient(135deg, var(--button), var(--button-dark));
+  color: white;
+  border-radius: 9999px;
+  padding: 1rem 0;
+  font-weight: 700;
+  font-size: 1.125rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(37, 88, 214, 0.25);
+  transition: transform 0.2s;
+}
+
+.btnContinue:hover { transform: none; }
+.btnContinue:active { transform: none; }

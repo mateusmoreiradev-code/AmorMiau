@@ -1,7 +1,11 @@
 :root{
   --text: #0b0b0b;
-  --background: #Fbfbfb;
-  --button: #a00000;
+  --background: #f5f8ff;
+  --button: #2558d6;
+  --button-dark: #163cad;
+  --soft-blue: #dfeaff;
+  --pink: #ff7aa2;
+  --panel: rgba(255, 255, 255, 0.9);
 }
 
 @font-face {

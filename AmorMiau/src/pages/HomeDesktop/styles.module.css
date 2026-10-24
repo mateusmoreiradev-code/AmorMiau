@@ -1,56 +1,61 @@
-header{
+.app {
+  min-height: 100vh;
+}
+
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 54px;
+  padding: 0 54px;
   background-color: var(--background);
-  box-shadow: 0 0px 20px #0000003a;
-  position: fixed;   
-  top: 0;            
-  left: 0;           
-  width: 100%;       
-  z-index: 1000;     
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 10;
   box-sizing: border-box;
 }
 
-.navbar h1{
+.header h1 {
   font-size: 34px;
-  font-weight: bolder;
+  font-weight: 900;
 }
 
-.navbar-options{
+.navbarOptions {
   display: flex;
   justify-content: space-around;
   width: 80%;
+  gap: 1rem;
 }
 
-.nav-button{
+.navButton {
   font-size: 30px;
   font-weight: 400;
   padding: 14px 22px;
-  border-bottom: 5px solid transparent; 
+  border-bottom: 5px solid transparent;
   box-sizing: border-box;
   text-transform: capitalize;
+  transition: all 0.2s ease;
 }
 
-.nav-button:hover{
+.navButton:hover {
   border-radius: 10px;
   border-bottom-color: var(--button);
   cursor: pointer;
   font-weight: 500;
 }
 
-.content{
+.content {
   padding: 18px 54px;
 }
 
-.titulo-descricao h2{
+.tituloDescricao h2 {
   font-size: 64px;
   font-weight: 900;
   text-transform: uppercase;
 }
 
-.titulo-descricao p{
+.tituloDescricao p {
   font-size: 28px;
   font-weight: 400;
   margin-top: -12px;
