@@ -1,6 +1,6 @@
 :root{
   --text: #0b0b0b;
-  --background: #f5f8ff;
+  --background: #FFFFF0;
   --button: #2558d6;
   --button-dark: #163cad;
   --soft-blue: #dfeaff;
@@ -20,6 +20,7 @@
 }
 
 html, body {
+  width: 100%;
   min-height: 100vh;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,8 +45,7 @@ input, button, textarea, select {
 }
 
 body{
-  padding-top: 80px;
-  background-image: url(../public/fundo.svg);
+  background-image: url(../public/aaaaaaa.svg);
   background-repeat: no-repeat;
   background-size: cover;
 

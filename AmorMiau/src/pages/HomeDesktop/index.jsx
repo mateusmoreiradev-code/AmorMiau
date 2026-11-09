@@ -1,5 +1,6 @@
 import styles from './styles.module.css';
 
+
 function NavButton({ children, href }) {
   return (
     <a href={href} className={styles.navButton}>
@@ -23,22 +24,50 @@ function NavBar() {
   );
 }
 
-function TituloDescricao({ titulo, descricao }) {
-  return (
-    <div className={styles.tituloDescricao}>
-      <h2>{titulo}</h2>
-      <p>{descricao}</p>
+function Cat({children, gender}){
+  return(
+    <div className={styles.cat}>
+      <h2>{children}</h2>
+      <img src='public/male.png'/>
     </div>
   );
+}
+
+function CatAge({children}){
+  return(
+    <div className={styles.catAge}>
+      <h3>{children}</h3>
+    </div>
+  );
+}
+
+function CatTag({children}){
+  return(
+    <p className={styles.catTag}>{children}</p>
+  );
+}
+
+function CardAdocao(){
+    return (
+      <div className={styles.card}>
+        <img src='public/image.png'/>
+
+        <div className={styles.cardInfo}>
+          <Cat>Destruidor de Mundos</Cat>
+          <CatAge>3 meses</CatAge>
+          <div className={styles.catTags}>
+            <CatTag>Tranquilo</CatTag>
+            <CatTag>Frajolinha</CatTag>
+          </div>
+        </div>
+      </div>
+    );
 }
 
 function Content() {
   return (
     <section className={styles.content}>
-      <TituloDescricao
-        titulo="Adoção"
-        descricao="Encontre seu novo parceiro de quatro patas."
-      />
+        <CardAdocao></CardAdocao>
     </section>
   );
 }
