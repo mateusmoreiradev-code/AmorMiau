@@ -10,7 +10,8 @@
 
 @font-face {
   font-family:'Nunito';
-  src: url('../public/nunito.ttf') format('truetype');
+  src: url('/nunito.ttf') format('truetype');
+  font-display: swap;
 }
 
 * {
@@ -45,9 +46,22 @@ input, button, textarea, select {
 }
 
 body{
-  background-image: url(../public/aaaaaaa.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background-color: #f4f9fb;
   font-family: 'Nunito';
+}
+
+body::before {
+  position: fixed;
+  z-index: -1;
+  inset: -18px;
+  background-image: url('/aaaaaaa.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  content: '';
+  opacity: 0.34;
+  pointer-events: none;
 }

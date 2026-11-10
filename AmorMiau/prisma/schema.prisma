@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoUsuario {
+  ADOTANTE
+  ONG
+  ADMINISTRADOR
+
+  @@map("tipo_usuario")
+}
+
+enum EspecieAnimal {
+  GATO
+  CACHORRO
+  OUTRO
+
+  @@map("especie_animal")
+}
+
+enum SexoAnimal {
+  FEMEA
+  MACHO
+  DESCONHECIDO
+
+  @@map("sexo_animal")
+}
+
+enum SituacaoAnimal {
+  RASCUNHO
+  DISPONIVEL
+  RESERVADO
+  ADOTADO
+  ARQUIVADO
+
+  @@map("situacao_animal")
+}
+
+enum SituacaoAdocao {
+  ENVIADA
+  EM_ANALISE
+  APROVADA
+  RECUSADA
+  RETIRADA
+  CONCLUIDA
+
+  @@map("situacao_adocao")
+}
+
+model Usuario {
+  id                 String               @id @default(uuid()) @db.Uuid
+  nome               String
+  email              String               @unique
+  senhaHash          String               @map("senha_hash")
+  telefone           String?
+  tipo               TipoUsuario          @default(ADOTANTE)
+  ativo              Boolean              @default(true)
+  criadoEm           DateTime             @default(now()) @map("criado_em")
+  atualizadoEm       DateTime             @updatedAt @map("atualizado_em")
+  animais            Animal[]             @relation("ResponsavelAnimal")
+  solicitacoes       Adocao[]             @relation("SolicitanteAdocao")
+  analisesRealizadas Adocao[]             @relation("AvaliadorAdocao")
+  sessoes            SessaoAutenticacao[]
+
+  @@index([tipo, ativo])
+  @@map("usuarios")
+}
+
+model SessaoAutenticacao {
+  id         String    @id @default(uuid()) @db.Uuid
+  tokenHash  String    @unique @map("token_hash")
+  usuarioId  String    @map("usuario_id") @db.Uuid
+  expiraEm   DateTime  @map("expira_em")
+  revogadaEm DateTime? @map("revogada_em")
+  criadaEm   DateTime  @default(now()) @map("criada_em")
+  usuario    Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId, expiraEm])
+  @@map("sessoes_autenticacao")
+}
+
+model Animal {
+  id             String           @id @default(uuid()) @db.Uuid
+  nome           String
+  especie        EspecieAnimal
+  raca           String?
+  sexo           SexoAnimal       @default(DESCONHECIDO)
+  dataNascimento DateTime?        @map("data_nascimento")
+  descricao      String
+  cidade         String
+  estado         String           @db.VarChar(2)
+  vacinado       Boolean          @default(false)
+  castrado       Boolean          @default(false)
+  situacao       SituacaoAnimal   @default(RASCUNHO)
+  responsavelId  String           @map("responsavel_id") @db.Uuid
+  criadoEm       DateTime         @default(now()) @map("criado_em")
+  atualizadoEm   DateTime         @updatedAt @map("atualizado_em")
+  responsavel    Usuario          @relation("ResponsavelAnimal", fields: [responsavelId], references: [id], onDelete: Restrict)
+  etiquetas      AnimalEtiqueta[]
+  adocoes        Adocao[]
+
+  @@index([situacao, especie, criadoEm])
+  @@index([cidade, estado])
+  @@index([responsavelId])
+  @@map("animais")
+}
+
+model Etiqueta {
+  id       String           @id @default(uuid()) @db.Uuid
+  nome     String           @unique
+  animais  AnimalEtiqueta[]
+  criadaEm DateTime         @default(now()) @map("criada_em")
+
+  @@map("etiquetas")
+}
+
+model AnimalEtiqueta {
+  animalId   String   @map("animal_id") @db.Uuid
+  etiquetaId String   @map("etiqueta_id") @db.Uuid
+  animal     Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  etiqueta   Etiqueta @relation(fields: [etiquetaId], references: [id], onDelete: Cascade)
+
+  @@id([animalId, etiquetaId])
+  @@index([etiquetaId])
+  @@map("animais_etiquetas")
+}
+
+model Adocao {
+  id            String         @id @default(uuid()) @db.Uuid
+  animalId      String         @map("animal_id") @db.Uuid
+  solicitanteId String         @map("solicitante_id") @db.Uuid
+  avaliadorId   String?        @map("avaliador_id") @db.Uuid
+  situacao      SituacaoAdocao @default(ENVIADA)
+  mensagem      String?
+  observacoes   String?
+  enviadaEm     DateTime       @default(now()) @map("enviada_em")
+  avaliadaEm    DateTime?      @map("avaliada_em")
+  concluidaEm   DateTime?      @map("concluida_em")
+  atualizadoEm  DateTime       @updatedAt @map("atualizado_em")
+  animal        Animal         @relation(fields: [animalId], references: [id], onDelete: Restrict)
+  solicitante   Usuario        @relation("SolicitanteAdocao", fields: [solicitanteId], references: [id], onDelete: Restrict)
+  avaliador     Usuario?       @relation("AvaliadorAdocao", fields: [avaliadorId], references: [id], onDelete: SetNull)
+
+  @@index([animalId, situacao])
+  @@index([solicitanteId, enviadaEm])
+  @@index([avaliadorId])
+  @@map("adocoes")
+}
