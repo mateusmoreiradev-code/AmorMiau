@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom'; // 1. Importe o Link aqui
 import styles from './styles.module.css';
 
 const pets = [
@@ -9,17 +10,25 @@ const pets = [
     alt: 'Gato disponível para adoção',
     tags: ['Tranquilo', 'Frajolinha'],
   },
+  {
+    name: 'Penelope',
+    age: '3 meses',
+    image: '/image.png',
+    alt: 'Gato disponível para adoção',
+    tags: ['Tranquilo', 'Frajolinha'],
+  },
 ];
 
+// 2. Corrigido para apontar para a raiz "/" em vez de "/index"
 const navigation = [
-  { label: 'Adoção', href: '#adocao', icon: 'heart' },
-  { label: 'Eventos', href: '#eventos', icon: 'calendar' },
-  { label: 'Doações', href: '#doacoes', icon: 'gift' },
-  { label: 'PetSitters', href: '#petsitters', icon: 'people' },
-  { label: 'Sobre nós', href: '#sobre', icon: 'info' },
+  { label: 'Adoção', href: '/', icon: 'heart' },
+  { label: 'Eventos', href: '/eventos', icon: 'calendar' },
+  { label: 'Doações', href: '/doacoes', icon: 'gift' },
+  { label: 'PetSitters', href: '/petsitters', icon: 'people' },
+  { label: 'Sobre nós', href: '/sobre', icon: 'info' },
 ];
 
-function NavIcon({ name }) {
+export function NavIcon({ name }) {
   const iconPaths = {
     heart: <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z" />,
     calendar: <><rect x="3" y="5" width="18" height="16" rx="3" /><path d="M16 3v4M8 3v4M3 10h18" /></>,
@@ -31,40 +40,49 @@ function NavIcon({ name }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true">{iconPaths[name]}</svg>;
 }
 
-function Header() {
+export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className={styles.header}>
-      <a className={styles.brand} href="#inicio" aria-label="AmorMiau, início" onClick={() => setMenuOpen(false)}>AmorMiau</a>
+      {/* 3. Substituído <a> por <Link to="/"> */}
+      <Link className={styles.brand} to="/" aria-label="AmorMiau, início" onClick={() => setMenuOpen(false)}>AmorMiau</Link>
+      
       <nav id="main-navigation" className={`${styles.navbarOptions} ${menuOpen ? styles.navbarOpen : ''}`} aria-label="Navegação principal">
         <div className={styles.drawerHeader}>
           <span className={styles.drawerBrand}><span className={styles.brandMark} aria-hidden="true">♥</span> AmorMiau</span>
           <button type="button" className={styles.drawerClose} aria-label="Fechar menu" onClick={() => setMenuOpen(false)}>‹</button>
         </div>
+        
         <div className={styles.drawerLinks}>
           {navigation.slice(0, 2).map(({ label, href, icon }, index) => (
-            <a key={href} href={href} className={`${styles.navButton} ${index === 0 ? styles.navActive : ''}`} aria-current={index === 0 ? 'page' : undefined} onClick={() => setMenuOpen(false)}>
+            /* 4. Substituído <a> por <Link to={href}> */
+            <Link key={href} to={href} className={`${styles.navButton} ${index === 0 ? styles.navActive : ''}`} aria-current={index === 0 ? 'page' : undefined} onClick={() => setMenuOpen(false)}>
               <NavIcon name={icon} />
               <span>{label}</span>
-            </a>
+            </Link>
           ))}
         </div>
+        
         <div className={styles.drawerDivider} />
+        
         <div className={styles.drawerLinks}>
           {navigation.slice(2).map(({ label, href, icon }) => (
-            <a key={href} href={href} className={styles.navButton} onClick={() => setMenuOpen(false)}>
+            /* 5. Substituído <a> por <Link to={href}> */
+            <Link key={href} to={href} className={styles.navButton} onClick={() => setMenuOpen(false)}>
               <NavIcon name={icon} />
               <span>{label}</span>
-            </a>
+            </Link>
           ))}
         </div>
+        
         <div className={styles.drawerPromo}>
           <span className={styles.pawIllustration} aria-hidden="true">🐾</span>
           <p>Um novo melhor amigo espera por você.</p>
           <a href="#adocao" onClick={() => setMenuOpen(false)}>Encontrar um pet</a>
         </div>
       </nav>
+
       {menuOpen && (
         <button
           type="button"
@@ -73,6 +91,7 @@ function Header() {
           onClick={() => setMenuOpen(false)}
         />
       )}
+      
       <button
         type="button"
         className={`${styles.menuToggle} ${menuOpen ? styles.menuToggleOpen : ''}`}
@@ -90,6 +109,8 @@ function Header() {
 }
 
 function PetCard({ pet }) {
+  const wppUrl = `https://wa.me/5547999494830?text=Olá!%20Tenho%20interesse%20em%20adotar%20o%20gato%20${encodeURIComponent(pet.name)}.`;
+
   return (
     <article className={styles.card}>
       <a href="#detalhes" className={styles.petLink} aria-label={`Ver detalhes de ${pet.name}`}>
@@ -103,7 +124,7 @@ function PetCard({ pet }) {
         <div className={styles.catTags} aria-label="Características">
           {pet.tags.map((tag) => <span key={tag} className={styles.catTag}>{tag}</span>)}
         </div>
-        <a href="#detalhes" className={styles.cardCta}>Conhecer pet</a>
+        <a href={wppUrl} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>Conhecer pet</a>
       </div>
     </article>
   );
