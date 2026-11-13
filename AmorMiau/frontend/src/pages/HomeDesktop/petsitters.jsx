@@ -4,15 +4,18 @@ import styles from './styles.module.css';
 
 const petSitters = [
   {
-    title: 'Arthur Mário Araújo',
+    name: 'Arthur Mário Araújo',
+    contact: '55988142436',
     location: 'Praça Central, São Bento do Sul',
-    image: '/evento1.png',
+    image: '/petSitter.png',
     alt: 'Arthur Mário Araújo',
     description: 'Cuidado, carinho e segurança para o seu pet na sua ausência.',
   },
 ];
 
 function PetSittersCard({ petSitter }) {
+    const wppUrl = `https://wa.me/${encodeURIComponent(petSitter.contact)}?text=Olá!%20Tenho%20interesse%20em%20adotar%20o%20gato%20${encodeURIComponent(petSitter.name)}.`;
+
   return (
     <article className={styles.card}>
       <a href="#detalhes" className={styles.petLink} aria-label={`Ver detalhes de ${petSitter.title}`}>
@@ -25,7 +28,7 @@ function PetSittersCard({ petSitter }) {
         </div>
         <p style={{ fontSize: '0.9rem', color: '#666', margin: '8px 0' }}>{petSitter.location}</p>
         <p style={{ fontSize: '0.95rem' }}>{petSitter.description}</p>
-        <a href="#inscrever" className={styles.cardCta} style={{ marginTop: '12px' }}>Participar</a>
+        <a href={wppUrl} className={styles.cardCta} style={{ marginTop: '12px' }}>Entre em contato</a>
       </div>
     </article>
   );
@@ -34,11 +37,9 @@ function PetSittersCard({ petSitter }) {
 export default function PetSittersDesktop() {
   return (
     <main className={styles.app} id="inicio">
-      {/* Reaproveitamos o Header exatamente igual */}
       <Header />
 
       <section className={styles.content} id="eventos" aria-labelledby="page-title">
-        {/* Mantemos o mesmo fundo decorativo em SVG para garantir a identidade visual */}
         <div className={styles.intro}>
           <svg className={styles.cornerContours} viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
             <defs>
@@ -69,7 +70,6 @@ export default function PetSittersDesktop() {
           </div>
         </div>
 
-        {/* Grelha de eventos usando as mesmas classes de CSS dos cards */}
         <div className={styles.petGrid}>
           {petSitters.map((petSitter) => (
             <PetSittersCard key={petSitter.title} petSitter={petSitter} />

@@ -5,11 +5,9 @@ import styles from './styles.module.css';
 export default function DoacoesDesktop() {
   return (
     <main className={styles.app} id="inicio">
-      {/* Reaproveitamos o Header exatamente igual */}
       <Header />
 
       <section className={styles.content} id="eventos" aria-labelledby="page-title">
-        {/* Mantemos o mesmo fundo decorativo em SVG para garantir a identidade visual */}
         <div className={styles.intro}>
           <svg className={styles.cornerContours} viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
             <defs>
@@ -32,7 +30,6 @@ export default function DoacoesDesktop() {
             <h1 id="page-title">Ajude-nos a salvar mais vidas</h1>
             <p>Sua contribuição mantém nossos resgates, ração e atendimento veterinário em dia.</p>
         </div>
-
       </section>
     </main>
   );

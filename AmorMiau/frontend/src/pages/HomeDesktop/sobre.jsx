@@ -35,11 +35,9 @@ function EventoCard({ evento }) {
 export default function SobreDesktop() {
   return (
     <main className={styles.app} id="inicio">
-      {/* Reaproveitamos o Header exatamente igual */}
       <Header />
 
       <section className={styles.content} id="eventos" aria-labelledby="page-title">
-        {/* Mantemos o mesmo fundo decorativo em SVG para garantir a identidade visual */}
         <div className={styles.intro}>
           <svg className={styles.cornerContours} viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
             <defs>
