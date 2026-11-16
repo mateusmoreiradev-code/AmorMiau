@@ -3,5 +3,12 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  root: 'frontend',
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3001',
+      '/uploads': 'http://localhost:3001',
+    },
+  },
 })

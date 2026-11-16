@@ -1,0 +1,67 @@
+:root{
+  --text: #0b0b0b;
+  --background: #FFFFF0;
+  --button: #2558d6;
+  --button-dark: #163cad;
+  --soft-blue: #dfeaff;
+  --pink: #ff7aa2;
+  --panel: rgba(255, 255, 255, 0.9);
+}
+
+@font-face {
+  font-family:'Nunito';
+  src: url('/nunito.ttf') format('truetype');
+  font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+body{
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background-color: #f4f9fb;
+  font-family: 'Nunito';
+}
+
+body::before {
+  position: fixed;
+  z-index: -1;
+  inset: -18px;
+  background-image: url('/aaaaaaa.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+  content: '';
+  opacity: 0.34;
+  pointer-events: none;
+}
