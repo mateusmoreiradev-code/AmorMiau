@@ -1,23 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom'; // 1. Importe o Link aqui
+import { Link, NavLink } from 'react-router-dom';
+import { linkWhatsApp, useApi } from '../../api';
+import ListaEstado, { CardImagem } from './ListaEstado';
+import { Intro, Rodape } from './Layout';
+import { GatoDormindo } from '../../components/Gatos';
 import styles from './styles.module.css';
 
-const pets = [
-  {
-    name: 'Destruidor de Mundos',
-    age: '3 meses',
-    image: '/image.png',
-    alt: 'Gato disponível para adoção',
-    tags: ['Tranquilo', 'Frajolinha'],
-  },
-  {
-    name: 'Penelope',
-    age: '3 meses',
-    image: '/image.png',
-    alt: 'Gato disponível para adoção',
-    tags: ['Tranquilo', 'Frajolinha'],
-  },
-];
+const WHATSAPP_ADOCAO = '5547999494830';
+
+const NOME_ESPECIE = { GATO: 'o gato', CACHORRO: 'o cachorro', OUTRO: 'o pet' };
 
 // 2. Corrigido para apontar para a raiz "/" em vez de "/index"
 const navigation = [
@@ -40,6 +31,8 @@ export function NavIcon({ name }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true">{iconPaths[name]}</svg>;
 }
 
+const navClass = ({ isActive }) => `${styles.navButton} ${isActive ? styles.navActive : ''}`;
+
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -55,24 +48,22 @@ export function Header() {
         </div>
         
         <div className={styles.drawerLinks}>
-          {navigation.slice(0, 2).map(({ label, href, icon }, index) => (
-            /* 4. Substituído <a> por <Link to={href}> */
-            <Link key={href} to={href} className={`${styles.navButton} ${index === 0 ? styles.navActive : ''}`} aria-current={index === 0 ? 'page' : undefined} onClick={() => setMenuOpen(false)}>
+          {navigation.slice(0, 2).map(({ label, href, icon }) => (
+            <NavLink key={href} to={href} end className={navClass} onClick={() => setMenuOpen(false)}>
               <NavIcon name={icon} />
               <span>{label}</span>
-            </Link>
+            </NavLink>
           ))}
         </div>
-        
+
         <div className={styles.drawerDivider} />
-        
+
         <div className={styles.drawerLinks}>
           {navigation.slice(2).map(({ label, href, icon }) => (
-            /* 5. Substituído <a> por <Link to={href}> */
-            <Link key={href} to={href} className={styles.navButton} onClick={() => setMenuOpen(false)}>
+            <NavLink key={href} to={href} end className={navClass} onClick={() => setMenuOpen(false)}>
               <NavIcon name={icon} />
               <span>{label}</span>
-            </Link>
+            </NavLink>
           ))}
         </div>
         
@@ -109,21 +100,28 @@ export function Header() {
 }
 
 function PetCard({ pet }) {
-  const wppUrl = `https://wa.me/5547999494830?text=Olá!%20Tenho%20interesse%20em%20adotar%20o%20gato%20${encodeURIComponent(pet.name)}.`;
+  const wppUrl = linkWhatsApp(
+    WHATSAPP_ADOCAO,
+    `Olá! Tenho interesse em adotar ${NOME_ESPECIE[pet.especie] ?? 'o pet'} ${pet.nome}.`,
+  );
 
   return (
     <article className={styles.card}>
-      <a href="#detalhes" className={styles.petLink} aria-label={`Ver detalhes de ${pet.name}`}>
-        <img className={styles.petImage} src={pet.image} alt={pet.alt} />
-      </a>
+      <div className={styles.petLink}>
+        <CardImagem src={pet.fotoUrl} alt={`Foto de ${pet.nome}`} />
+        {pet.situacao === 'RESERVADO' && <span className={styles.availability}>Reservado</span>}
+      </div>
       <div className={styles.cardInfo}>
         <div className={styles.petHeading}>
-          <h3>{pet.name}</h3>
-          <span className={styles.age}>{pet.age}</span>
+          <h3>{pet.nome}</h3>
+          {pet.idade && <span className={styles.age}>{pet.idade}</span>}
         </div>
-        <div className={styles.catTags} aria-label="Características">
-          {pet.tags.map((tag) => <span key={tag} className={styles.catTag}>{tag}</span>)}
-        </div>
+        {pet.descricao && <p className={styles.cardText}>{pet.descricao}</p>}
+        {pet.etiquetas.length > 0 && (
+          <div className={styles.catTags} aria-label="Características">
+            {pet.etiquetas.map((tag) => <span key={tag} className={styles.catTag}>{tag}</span>)}
+          </div>
+        )}
         <a href={wppUrl} target="_blank" rel="noopener noreferrer" className={styles.cardCta}>Conhecer pet</a>
       </div>
     </article>
@@ -131,46 +129,32 @@ function PetCard({ pet }) {
 }
 
 export default function HomeDesktop() {
+  const { dados: pets, carregando, erro } = useApi('/animais');
+
   return (
     <main className={styles.app} id="inicio">
       <Header />
       <section className={styles.content} id="adocao" aria-labelledby="page-title">
-        <div className={styles.intro}>
-          <svg className={styles.cornerContours} viewBox="0 0 1000 400" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="glass-blue-top" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#a7e7f6" stopOpacity="0.12" />
-                <stop offset="45%" stopColor="#78cce9" stopOpacity="0.2" />
-                <stop offset="100%" stopColor="#55afd2" stopOpacity="0.05" />
-              </linearGradient>
-              <linearGradient id="glass-blue-bottom" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#67bfdf" stopOpacity="0.04" />
-                <stop offset="50%" stopColor="#8bd5eb" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#b7edf8" stopOpacity="0.35" />
-              </linearGradient>
-            </defs>
-            <path className={styles.abstractShape} fill="url(#glass-blue-top)" d="M786 0 L1000 0 L1000 154 C969 130 944 118 906 137 C866 157 827 138 801 108 C774 78 790 41 786 0 Z" />
-            <path className={styles.abstractShape} fill="url(#glass-blue-top)" d="M866 0 L1000 0 L1000 105 C979 91 956 88 934 99 C907 112 881 96 866 75 C849 51 863 26 866 0 Z" />
-            <path className={styles.abstractShape} fill="url(#glass-blue-bottom)" d="M0 226 C36 244 72 283 117 281 C161 279 178 318 218 329 C253 339 257 368 286 386 C299 394 307 398 315 400 L0 400 Z" />
-            <path className={styles.abstractShape} fill="url(#glass-blue-bottom)" d="M0 303 C39 321 68 354 105 350 C141 346 155 378 192 379 C221 380 230 404 254 400 L0 400 Z" />
-            <path className={styles.abstractHighlight} d="M790 0 C788 40 778 76 803 105 C830 136 866 151 906 135 C944 119 970 130 999 151" />
-            <path className={styles.abstractHighlight} d="M0 229 C37 248 73 286 117 284 C162 282 179 321 219 332 C254 342 258 370 286 388 C299 396 307 399 314 399" />
-          </svg>
-          <span className={styles.eyebrow}>ADOÇÃO RESPONSÁVEL</span>
-          <h1 id="page-title">Encontre seu novo melhor amigo</h1>
-          <p>Um lar cheio de carinho pode começar com um encontro.</p>
-        </div>
+        <Intro eyebrow="ADOÇÃO RESPONSÁVEL" titulo="Encontre seu novo melhor amigo" texto="Um lar cheio de carinho pode começar com um encontro." pelo="#f4b98a" detalhado />
         <div className={styles.sectionHeading}>
           <div>
             <h2>Pets esperando por você</h2>
             <p>Conheça quem está pronto para fazer parte da sua família.</p>
           </div>
-          <a href="#todos-pets" className={styles.seeAll}>Ver todos <span aria-hidden="true">→</span></a>
+          <GatoDormindo className={styles.sectionCat} />
         </div>
-        <div className={styles.petGrid}>
-          {pets.map((pet) => <PetCard key={pet.name} pet={pet} />)}
-        </div>
+        <ListaEstado
+          carregando={carregando}
+          erro={erro}
+          vazio={pets?.length === 0}
+          mensagemVazia="Nenhum pet disponível no momento. Volte em breve!"
+        >
+          <div className={styles.petGrid}>
+            {pets?.map((pet) => <PetCard key={pet.id} pet={pet} />)}
+          </div>
+        </ListaEstado>
       </section>
+      <Rodape />
     </main>
   );
 }

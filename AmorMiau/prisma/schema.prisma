@@ -95,6 +95,7 @@ model Animal {
   estado         String           @db.VarChar(2)
   vacinado       Boolean          @default(false)
   castrado       Boolean          @default(false)
+  fotoUrl        String?          @map("foto_url")
   situacao       SituacaoAnimal   @default(RASCUNHO)
   responsavelId  String           @map("responsavel_id") @db.Uuid
   criadoEm       DateTime         @default(now()) @map("criado_em")
@@ -149,4 +150,78 @@ model Adocao {
   @@index([solicitanteId, enviadaEm])
   @@index([avaliadorId])
   @@map("adocoes")
+}
+
+enum TipoDoacao {
+  PIX
+  TRANSFERENCIA
+  DINHEIRO
+  ITENS
+  APADRINHAMENTO
+  OUTRO
+
+  @@map("tipo_doacao")
+}
+
+model Evento {
+  id            String    @id @default(uuid()) @db.Uuid
+  titulo        String
+  descricao     String
+  dataInicio    DateTime  @map("data_inicio")
+  dataFim       DateTime? @map("data_fim")
+  local         String
+  imagemUrl     String?   @map("imagem_url")
+  linkInscricao String?   @map("link_inscricao")
+  publicado     Boolean   @default(true)
+  criadoEm      DateTime  @default(now()) @map("criado_em")
+  atualizadoEm  DateTime  @updatedAt @map("atualizado_em")
+
+  @@index([publicado, dataInicio])
+  @@map("eventos")
+}
+
+model FormaDoacao {
+  id             String     @id @default(uuid()) @db.Uuid
+  tipo           TipoDoacao
+  titulo         String
+  descricao      String
+  chavePix       String?    @map("chave_pix")
+  dadosBancarios String?    @map("dados_bancarios")
+  link           String?
+  ordem          Int        @default(0)
+  ativo          Boolean    @default(true)
+  criadoEm       DateTime   @default(now()) @map("criado_em")
+  atualizadoEm   DateTime   @updatedAt @map("atualizado_em")
+
+  @@index([ativo, ordem])
+  @@map("formas_doacao")
+}
+
+model PetSitter {
+  id           String   @id @default(uuid()) @db.Uuid
+  nome         String
+  telefone     String
+  email        String?
+  cidade       String
+  estado       String   @db.VarChar(2)
+  regiao       String?
+  descricao    String
+  fotoUrl      String?  @map("foto_url")
+  ativo        Boolean  @default(true)
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  @@index([ativo, cidade])
+  @@map("pet_sitters")
+}
+
+model ConteudoPagina {
+  slug         String   @id
+  titulo       String
+  subtitulo    String?
+  corpo        String
+  imagemUrl    String?  @map("imagem_url")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  @@map("conteudos_pagina")
 }

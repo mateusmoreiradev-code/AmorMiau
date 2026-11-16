@@ -5,6 +5,7 @@ import EventosDesktop from './pages/HomeDesktop/eventos';
 import DoacoesDesktop from './pages/HomeDesktop/doacoes';
 import PetSittersDesktop from './pages/HomeDesktop/petsitters';
 import SobreDesktop from './pages/HomeDesktop/sobre';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/doacoes" element={<DoacoesDesktop />} />
         <Route path="/petsitters" element={<PetSittersDesktop />} />
         <Route path="/sobre" element={<SobreDesktop />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
